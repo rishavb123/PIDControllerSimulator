@@ -17,7 +17,7 @@ def run_simulation(
     if max_t is None:
         max_t = dt * max_steps
 
-    error_capture = Capture(dt=dt)
+    error_capture = Capture(dt=dt, use_integral=Ki != 0, use_derivative=Kd != 0)
     error_capture.process(initial_output - goal_output)
     pid_capture = Capture(dt=dt)
     pid_capture.process(0)
@@ -42,7 +42,12 @@ def run_simulation(
     for i in range(1, n):
         ys[i] = s(ys[i - 1])
 
-    es = error_capture.get_np()
-    pids = pid_capture.get_np()
+    es = error_capture.get_x_np()
+    pids = pid_capture.get_x_np()
 
-    return ts, es, pids, ys
+    i_es = error_capture.get_ix_np()
+    d_es = error_capture.get_dx_np()
+
+    extra = np.zeros_like(ts)
+
+    return ts, (es, pids, ys), (i_es, d_es, extra)

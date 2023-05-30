@@ -7,7 +7,7 @@ def run_simulation(
     dt: float,
     plant: System,
     goal_output: float,
-    initial_output: float,
+    initial_output: float = 0,
     Kp: float = 0,
     Ki: float = 0,
     Kd: float = 0,

@@ -39,7 +39,7 @@ class CarPlant(System):
         if self.inp_type == THETA:
             self.theta = x
         elif self.inp_type == THETA_DOT:
-            self.theta += x
+            self.theta += x * self.dt
         if self.theta_control == X_TAG:
             self.x = self.theta * self.theta_multiplier
         elif self.theta_control == V_TAG:

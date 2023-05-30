@@ -1,1 +1,2 @@
-from systems.system import System
+from .system import System
+from .composite import CompositeSystem

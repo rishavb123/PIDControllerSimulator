@@ -50,7 +50,7 @@ class CarPlant(System):
         s = 1 if self.v > 0 else (0 if self.v == 0 else -1)
 
         self.v += (
-            self.a - s * self.friction - self.v * self.friction_v_multiplier
+            self.a - s * self.friction_base - self.v * self.friction_v_multiplier
         ) * self.dt
         self.x += self.v * self.dt
 

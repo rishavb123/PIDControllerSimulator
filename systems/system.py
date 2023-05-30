@@ -1,4 +1,5 @@
 import abc
+from typing import Any
 
 
 class System(abc.ABC):
@@ -36,3 +37,6 @@ class System(abc.ABC):
     @abc.abstractmethod
     def _process(self, x: float, ix: float, dx: float) -> float:
         pass
+
+    def __call__(self, x: float) -> float:
+        return self.process(x)

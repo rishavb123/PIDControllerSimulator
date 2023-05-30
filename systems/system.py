@@ -3,15 +3,16 @@ from typing import Any
 
 
 class System(abc.ABC):
-    def __init__(self, dt: float, use_integral=False, use_derivative=False) -> None:
+    def __init__(self, dt: float, use_integral=False, use_derivative=False, initial_val=None) -> None:
         super().__init__()
         self.dt = dt
         self.use_integral = use_integral
         self.use_derivative = use_derivative
+        self.initial_val = initial_val
         self.reset()
 
     def reset(self) -> None:
-        self.last_val = None
+        self.last_val = self.initial_val
         self.cur_integral = 0
 
     def calculate_integral(self, x: float) -> float:

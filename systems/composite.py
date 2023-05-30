@@ -1,6 +1,6 @@
 from typing import List
 
-from . import System
+from .system import System
 
 class CompositeSystem(System):
     

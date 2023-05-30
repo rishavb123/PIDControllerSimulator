@@ -1,6 +1,6 @@
 import numpy as np
 
-from systems import PID, Error, System, CompositeSystem
+from systems import PID, Error, System, CompositeSystem, Capture
 
 
 def run_simulation(
@@ -16,11 +16,19 @@ def run_simulation(
 ):
     if max_t is None:
         max_t = dt * max_steps
+
+    error_capture = Capture(dt=dt)
+    error_capture.process(initial_output - goal_output)
+    pid_capture = Capture(dt=dt)
+    pid_capture.process(0)
+
     s = CompositeSystem(
         dt=dt,
         systems=[
             Error(dt=dt, goal=goal_output),
+            error_capture,
             PID(dt=dt, Kp=Kp, Ki=Ki, Kd=Kd),
+            pid_capture,
             plant,
         ],
     )
@@ -34,4 +42,7 @@ def run_simulation(
     for i in range(1, n):
         ys[i] = s(ys[i - 1])
 
-    return ts, ys
+    es = error_capture.get_np()
+    pids = pid_capture.get_np()
+
+    return ts, es, pids, ys
